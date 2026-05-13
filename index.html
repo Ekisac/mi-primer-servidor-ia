@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¡Bienvenido a tu nueva web!</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <p class="hero-kicker">Hola, mundo web</p>
+      <h1>¡Bienvenido a tu primera página increíble!</h1>
+      <p class="hero-subtitle">
+        Este es un punto de partida sencillo y elegante para tus proyectos en HTML y CSS.
+      </p>
+      <a class="hero-button" href="#comenzar">Empezar ahora</a>
+    </header>
+
+    <main>
+      <section id="comenzar" class="section">
+        <h2>¿Qué puedes hacer aquí?</h2>
+        <p>
+          Usa esta plantilla para practicar, experimentar con nuevos estilos y añadir secciones
+          como tu portafolio, un blog o una página de presentación personal.
+        </p>
+      </section>
+
+      <section class="section section-secondary">
+        <h2>Consejo rápido</h2>
+        <p>
+          Abre el archivo <strong>styles.css</strong> y juega con los colores, tamaños de fuente
+          y espaciados hasta que la página se vea exactamente como tú quieres.
+        </p>
+      </section>
+
+      <section class="section tech-gallery">
+        <h2>Paisajes tecnológicos</h2>
+        <p>
+          Imágenes en alta resolución desde Unsplash para ambientar una sección visual moderna.
+        </p>
+        <div class="carousel-header">
+          <button class="carousel-control" type="button" data-action="prev" aria-label="Tarjeta anterior">◀</button>
+          <button class="carousel-control" type="button" data-action="next" aria-label="Siguiente tarjeta">▶</button>
+        </div>
+        <div class="cards-grid" id="tech-carousel" aria-live="polite">
+          <article class="tech-card">
+            <img src="img/tech-landscape-1.jpg" alt="Circuito y componentes tecnológicos iluminados" loading="lazy">
+            <h3>Infraestructura digital</h3>
+          </article>
+          <article class="tech-card">
+            <img src="img/tech-landscape-2.jpg" alt="Pantalla con líneas de código y entorno de desarrollo" loading="lazy">
+            <h3>Desarrollo de software</h3>
+          </article>
+          <article class="tech-card">
+            <img src="img/tech-landscape-3.jpg" alt="Escritorio tecnológico con equipos y luz ambiental" loading="lazy">
+            <h3>Espacios de innovación</h3>
+          </article>
+        </div>
+        <p class="image-credit">
+          Fotos: <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer">Unsplash</a>
+        </p>
+      </section>
+
+      <section class="section users-section">
+        <h2>Usuarios ficticios (API)</h2>
+        <p>Datos cargados desde <code>/api/usuarios</code> al iniciar la página.</p>
+        <div id="usuarios-grid" class="users-grid" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 Tu Nombre · Creado con HTML &amp; CSS</p>
+    </footer>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "nombre": "Sofia Ramirez",
+    "correo": "sofia.ramirez@example.com",
+    "rol": "admin",
+    "fotoPerfil": "https://i.pravatar.cc/300?img=1"
+  },
+  {
+    "id": 2,
+    "nombre": "Mateo Ortega",
+    "correo": "mateo.ortega@example.com",
+    "rol": "editor",
+    "fotoPerfil": "https://i.pravatar.cc/300?img=2"
+  },
+  {
+    "id": 3,
+    "nombre": "Valentina Cruz",
+    "correo": "valentina.cruz@example.com",
+    "rol": "viewer",
+    "fotoPerfil": "https://i.pravatar.cc/300?img=3"
+  },
+  {
+    "id": 4,
+    "nombre": "Diego Navarro",
+    "correo": "diego.navarro@example.com",
+    "rol": "editor",
+    "fotoPerfil": "https://i.pravatar.cc/300?img=4"
+  },
+  {
+    "id": 5,
+    "nombre": "Camila Rojas",
+    "correo": "camila.rojas@example.com",
+    "rol": "viewer",
+    "fotoPerfil": "https://i.pravatar.cc/300?img=5"
+  },
+  {
+    "id": 6,
+    "nombre": "Lucas Herrera",
+    "correo": "lucas.herrera@example.com",
+    "rol": "admin",
+    "fotoPerfil": "https://i.pravatar.cc/300?img=6"
+  },
+  {
+    "id": 7,
+    "nombre": "Isabella Mendez",
+    "correo": "isabella.mendez@example.com",
+    "rol": "editor",
+    "fotoPerfil": "https://i.pravatar.cc/300?img=7"
+  },
+  {
+    "id": 8,
+    "nombre": "Daniel Paredes",
+    "correo": "daniel.paredes@example.com",
+    "rol": "viewer",
+    "fotoPerfil": "https://i.pravatar.cc/300?img=8"
+  },
+  {
+    "id": 9,
+    "nombre": "Gabriela Soto",
+    "correo": "gabriela.soto@example.com",
+    "rol": "editor",
+    "fotoPerfil": "https://i.pravatar.cc/300?img=9"
+  },
+  {
+    "id": 10,
+    "nombre": "Nicolas Fuentes",
+    "correo": "nicolas.fuentes@example.com",
+    "rol": "viewer",
+    "fotoPerfil": "https://i.pravatar.cc/300?img=10"
+  }
+]
