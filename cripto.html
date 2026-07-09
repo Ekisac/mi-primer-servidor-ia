@@ -31,21 +31,23 @@
     <script>
         async function actualizarPrecioDesdeNavegador() {
             try {
-                // El navegador hace la consulta directa evitando el bloqueo de la nube de Render
-                const respuesta = await fetch('https://coingecko.com');
-                const json = await respuesta.json();
+                // Endpoint público de Bitfinex que soporta peticiones de navegador (No CORS) sin tokens
+                const respuesta = await fetch('https://bitfinex.com');
+                const datos = await respuesta.json();
                 
-                if (!json.bitcoin) throw new Error("Datos incompletos");
+                // Estructura de respuesta tipo array de Bitfinex
+                // datos[6] es el último precio, datos[5] es el cambio porcentual diario
+                if (!datos || datos.length < 7) throw new Error("Datos inválidos");
 
-                const price = json.bitcoin.usd;
-                const change = json.bitcoin.usd_24h_change;
+                const price = parseFloat(datos[6]);
+                const change = parseFloat(datos[5]) * 100; // Se multiplica por 100 para porcentaje numérico
                 const ahora = new Date();
                 
                 const horaFormateada = ahora.toLocaleTimeString('es-VE', { 
                     hour: '2-digit', minute: '2-digit', timeZone: 'America/Caracas' 
                 });
 
-                // Inyectamos los datos reales en el HTML de la página
+                // Inyectamos los datos formateados en la interfaz visual
                 document.getElementById('btc-precio').innerText = `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`;
                 document.getElementById('btc-hora').innerText = horaFormateada;
                 
@@ -63,7 +65,7 @@
             }
         }
 
-        // Ejecución inmediata y actualización automatizada en segundo plano cada 3 minutos
+        // Inicializar ejecución e implementar refresco asíncrono automático de 3 minutos
         actualizarPrecioDesdeNavegador();
         setInterval(actualizarPrecioDesdeNavegador, 180000);
     </script>
