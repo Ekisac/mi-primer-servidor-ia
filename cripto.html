@@ -11,6 +11,7 @@
       --card-bg: #161a22;
       --accent-blue: #58a6ff;
       --text-main: #c9d1d9;
+      --accent-green: #3fb950;
     }
     .místico-body {
       background-color: var(--bg-místico) !important;
@@ -42,26 +43,28 @@
       font-family: monospace;
       font-size: 1.2rem;
       color: #8b949e;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
-    .widget-container {
-      width: 100%;
-      height: 240px;
+    .oraculo-button {
+      display: block;
+      background: linear-gradient(135deg, #1f242c, #232a36);
+      border: 2px solid var(--accent-blue);
       border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid #30363d;
-      background-color: #131722;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      padding: 25px;
+      color: #fff;
+      font-size: 1.4rem;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 0 15px rgba(88, 166, 255, 0.1);
+      transition: all 0.2s ease;
     }
-    .chart-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .oraculo-button:hover {
+      background: #1f242c;
+      box-shadow: 0 0 25px rgba(88, 166, 255, 0.35);
+      transform: scale(1.02);
     }
     .status-log {
-      margin-top: 30px;
+      margin-top: 35px;
       font-family: monospace;
       font-size: 0.85rem;
       color: #8b949e;
@@ -88,25 +91,22 @@
 
     <main class="panel-container">
       <div class="crypto-card">
-        <div class="ticker">ASSET: BITCOIN (BTC/USD) - ÚLTIMAS 24H</div>
+        <div class="ticker">ASSET: BITCOIN (BTC/USD)</div>
         
-        <!-- PANEL DE IMAGEN ESTÁTICA / DINÁMICA (100% Inmune a bloqueos CSP de scripts) -->
-        <div class="widget-container">
-          <img class="chart-image" 
-               src="https://coingecko.com" 
-               alt="Gráfico de Bitcoin en tiempo real"
-               style="filter: invert(1) hue-rotate(180deg) brightness(1.2); padding: 20px; box-sizing: border-box;">
-        </div>
+        <!-- COMPONENTE DE ACCESO DE ALTA PRIORIDAD (Inmune a bloqueos CSP/CORB) -->
+        <a href="https://tradingview.com" target="_blank" rel="noopener noreferrer" class="oraculo-button">
+          📊 INICIAR MONITOR EN VIVO
+        </a>
         
         <div class="status-log">
-          <p>> Estado del canal: <span style="color: #3fb950;">Imagen de Red Cargada [OK]</span></p>
-          <p>> Mecánica: Renderizado nativo por tag IMG. Bypass completo a la Content Security Policy (CSP).</p>
+          <p>> Estado del canal: <span style="color: var(--accent-green);">Aislamiento Local Activado [OK]</span></p>
+          <p>> Mecánica: Acceso seguro e inmune redireccionando la consulta fuera de los entornos restrictivos del servidor local.</p>
         </div>
       </div>
     </main>
 
     <footer style="text-align: center; margin-top: 80px; color: #8b949e; font-family: monospace; padding-top: 20px; border-top: 1px solid #21262d;">
-      <p>// Flujo de datos económicos descentralizados v1.4</p>
+      <p>// Flujo de datos económicos descentralizados v1.5</p>
     </footer>
   </div>
 </body>
