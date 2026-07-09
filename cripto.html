@@ -3,52 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oráculo en Bucle</title>
+    <title>Terminal de Pruebas - Juego</title>
     <style>
         body { background-color: #0b111e; color: #ffffff; font-family: monospace; padding: 40px; }
         .contenedor { max-width: 600px; margin: 0 auto; background: #111827; padding: 30px; border-radius: 8px; border: 1px solid #1f2937; text-align: center; }
-        .precio-grande { font-size: 2.5rem; font-weight: bold; margin: 20px 0; color: #f39c12; }
-        .meta-datos { display: flex; justify-content: space-around; margin-top: 20px; font-size: 1.1rem; }
-        .positivo { color: #00ff00; }
+        h2 { color: #f39c12; letter-spacing: 2px; }
+        .pantalla-consola { background: #070b12; border: 1px solid #1f2937; border-radius: 6px; padding: 20px; margin: 20px 0; min-height: 60px; color: #00ff00; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
+        .controles { margin-top: 20px; }
+        input[type="number"] { background: #1f2937; border: 1px solid #374151; color: #fff; padding: 10px; border-radius: 4px; font-family: monospace; font-size: 1.1rem; width: 100px; text-align: center; outline: none; }
+        button { background: #f39c12; border: none; color: #0b111e; padding: 10px 20px; border-radius: 4px; font-family: monospace; font-size: 1.1rem; cursor: pointer; font-weight: bold; margin-left: 10px; transition: 0.2s; }
+        button:hover { background: #e67e22; }
+        .btn-reiniciar { background: #374151; color: #fff; margin-top: 15px; font-size: 0.9rem; padding: 6px 12px; }
+        .btn-reiniciar:hover { background: #4b5563; }
     </style>
 </head>
 <body>
 
     <div class="contenedor">
-        <h2>ORÁCULO EN BUCLE</h2>
-        <p>Precio del Bloque JSON en Tiempo Real (BTC/USDT)</p>
+        <h2>MÓDULO DE ADIVINACIÓN</h2>
+        <p>Adivina el número secreto del servidor entre 1 y 100</p>
         <hr style="border-color: #1f2937;">
 
-        <div class="precio-grande" id="btc-precio">Cargando...</div>
-
-        <div class="meta-datos">
-            <div>Estado: <span id="btc-cambio" class="positivo">ONLINE</span></div>
-            <div>Hora (HL): <span id="btc-hora">--:--</span></div>
+        <div class="pantalla-consola" id="consola-sistema">
+            SISTEMA ONLINE: Introduce un número para comenzar...
         </div>
+
+        <div class="controles">
+            <input type="number" id="input-numero" min="1" max="100" placeholder="00">
+            <button onclick="enviarIntento()">PROBAR</button>
+        </div>
+
+        <button class="btn-reiniciar" onclick="reiniciarJuego()">Reiniciar Sistema</button>
     </div>
 
     <script>
-        async function actualizarPrecioDesdeServidor() {
-            try {
-                // Consulta interna relativa a tu propio servidor de Render
-                const respuesta = await fetch('/api/bitcoin-actual');
-                if(!respuesta.ok) throw new Error("Error en servidor");
-                
-                const datos = await respuesta.json();
+        async function enviarIntento() {
+            const input = document.getElementById('input-numero');
+            const numero = input.value;
+            const consola = document.getElementById('consola-sistema');
 
-                // Insertar datos directo en la interfaz
-                document.getElementById('btc-precio').innerText = `$${datos.precio} USD`;
-                document.getElementById('btc-hora').innerText = datos.hora;
-                
+            if(!numero) {
+                consola.innerText = "Error: Debes ingresar un número.";
+                consola.style.color = "#ff0000";
+                return;
+            }
+
+            try {
+                const respuesta = await fetch('/api/juego-adivinar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ numero: numero })
+                });
+
+                const datos = await respuesta.json();
+                consola.innerText = datos.mensaje;
+
+                // Cambiar colores de la consola según el estado
+                if (datos.estado === "ganado") {
+                    consola.style.color = "#00ff00";
+                    input.value = "";
+                } else {
+                    consola.style.color = "#f39c12";
+                }
+
             } catch (error) {
-                document.getElementById('btc-precio').innerText = "Error Interno";
-                console.error("Error al obtener los datos del Proxy:", error);
+                consola.innerText = "Error de comunicación con el núcleo.";
+                consola.style.color = "#ff0000";
             }
         }
 
-        // Ejecución inicial y bucle automático cada 3 minutos
-        actualizarPrecioDesdeServidor();
-        setInterval(actualizarPrecioDesdeServidor, 180000);
+        async function reiniciarJuego() {
+            const consola = document.getElementById('consola-sistema');
+            try {
+                const respuesta = await fetch('/api/juego-reiniciar', { method: 'POST' });
+                const datos = await respuesta.json();
+                consola.innerText = datos.mensaje;
+                consola.style.color = "#00ff00";
+                document.getElementById('input-numero').value = "";
+            } catch (error) {
+                consola.innerText = "Error al reiniciar.";
+            }
+        }
     </script>
 </body>
 </html>
