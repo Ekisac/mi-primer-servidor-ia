@@ -9,47 +9,49 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
-// Guardamos solo un objeto con el precio actual en memoria
-let btcPrecioActual = { precio: "62,041.00", cambio: "-1.24", hora: "--:--" };
+// Iniciamos en vacío para verificar si la API responde realmente
+let btcPrecioActual = { precio: "Cargando...", cambio: "0.00", hora: "--:--" };
 
 function consultarPrecioServidor() {
-  https.get('https://coincap.io', (res) => {
+  // Cambiamos a la API de Binance (BTCUSDT) que no bloquea a Render
+  https.get('https://binance.com', (res) => {
     let data = '';
     res.on('data', (chunk) => { data += chunk; });
     res.on('end', () => {
       try {
         const json = JSON.parse(data);
-        if (!json.data) throw new Error("Estructura inválida");
+        
+        // Binance devuelve directamente lastPrice y priceChangePercent
+        if (!json.lastPrice) throw new Error("Respuesta incompleta de Binance");
 
-        const price = parseFloat(json.data.priceUsd);
-        const change = parseFloat(json.data.changePercent24Hr);
+        const price = parseFloat(json.lastPrice);
+        const change = parseFloat(json.priceChangePercent);
         const ahora = new Date();
         const horaFormateada = ahora.toLocaleTimeString('es-VE', { 
           hour: '2-digit', minute: '2-digit', timeZone: 'America/Caracas' 
         });
 
-        // Sobrescribimos el objeto con el dato más reciente
+        // Guardamos los datos reales procesados
         btcPrecioActual = {
           precio: price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
           cambio: (change >= 0 ? "+" : "") + change.toFixed(2),
           hora: horaFormateada
         };
 
-        console.log(`[ORÁCULO] Precio actualizado: $${btcPrecioActual.precio} USD`);
+        console.log(`[ORÁCULO] Precio Real Binance: $${btcPrecioActual.precio} USD`);
       } catch (e) {
-        console.log("[ORÁCULO] Error al procesar JSON:", e.message);
+        console.log("[ORÁCULO] Error al procesar JSON de Binance:", e.message);
       }
     });
   }).on("error", (err) => {
-    console.log("[ORÁCULO] Error de red:", err.message);
+    console.log("[ORÁCULO] Error de red en Binance:", err.message);
   });
 }
 
-// El servidor consulta el precio cada 3 minutos
+// Actualizar cada 3 minutos
 setInterval(consultarPrecioServidor, 180000);
 consultarPrecioServidor();
 
-// ENDPOINT MODIFICADO: Ahora solo devuelve el objeto del precio actual
 app.get("/api/bitcoin-actual", (req, res) => {
   res.json(btcPrecioActual);
 });
