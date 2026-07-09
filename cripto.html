@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oráculo en Bucle</title>
-    <!-- Aquí puedes mantener tus estilos CSS idénticos a los de tu captura -->
     <style>
         body { background-color: #0b111e; color: #ffffff; font-family: monospace; padding: 40px; }
         .contenedor { max-width: 600px; margin: 0 auto; background: #111827; padding: 30px; border-radius: 8px; border: 1px solid #1f2937; text-align: center; }
@@ -21,29 +20,29 @@
         <p>Precio del Bloque JSON en Tiempo Real (BTC/USDT)</p>
         <hr style="border-color: #1f2937;">
 
-        <!-- Contenedores donde se mostrarán los datos dinámicos -->
-        <div class="precio-grande" id="btc-precio">$0.00 USD</div>
+        <div class="precio-grande" id="btc-precio">Cargando...</div>
 
         <div class="meta-datos">
-            <div>Cambio (24H): <span id="btc-cambio">0.00%</span></div>
+            <div>Cambio (24H): <span id="btc-cambio">--%</span></div>
             <div>Hora (HL): <span id="btc-hora">--:--</span></div>
         </div>
     </div>
 
-    <!-- SCRIPT PARA CONECTAR CON EL BACKEND -->
     <script>
         async function actualizarPrecio() {
             try {
                 const respuesta = await fetch('/api/bitcoin-actual');
                 const datos = await respuesta.json();
                 
-                // Asignamos el precio
+                // Si el servidor aún está cargando el dato real de la API
+                if(datos.precio === "Cargando...") {
+                    document.getElementById('btc-precio').innerText = datos.precio;
+                    return;
+                }
+
                 document.getElementById('btc-precio').innerText = `$${datos.precio} USD`;
-                
-                // Asignamos la hora
                 document.getElementById('btc-hora').innerText = datos.hora;
                 
-                // Asignamos el cambio de precio y evaluamos el color (verde o rojo)
                 const cambioElem = document.getElementById('btc-cambio');
                 cambioElem.innerText = `${datos.cambio}%`;
                 
@@ -53,14 +52,12 @@
                     cambioElem.className = 'negativo';
                 }
             } catch (error) {
-                console.error("Error al conectar con el oráculo:", error);
+                console.error("Error al conectar con el backend:", error);
             }
         }
 
-        // Ejecuta inmediatamente al cargar la página en Render
+        // Carga inicial y bucle de consulta automática cada 3 minutos
         actualizarPrecio();
-
-        // El navegador actualiza de forma automática cada 3 minutos sin recargar la pantalla
         setInterval(actualizarPrecio, 180000);
     </script>
 </body>
