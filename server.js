@@ -1,6 +1,5 @@
 const express = require("express");
 const path = require("path");
-const https = require("https");
 const usuarios = require("./usuarios.mock.json");
 
 const app = express();
@@ -9,36 +8,34 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
-// Endpoint que actúa como Proxy interno
-app.get("/api/bitcoin-actual", (req, proxyRes) => {
-  // Usamos la API de Coinbase que es amigable con servidores en la nube
-  https.get('https://coinbase.com', (res) => {
-    let data = '';
-    res.on('data', (chunk) => { data += chunk; });
-    res.on('end', () => {
-      try {
-        const json = JSON.parse(data);
-        if (!json.data || !json.data.amount) throw new Error("Estructura inválida");
+// Variables del juego en memoria del servidor
+let numeroSecreto = Math.floor(Math.random() * 100) + 1;
+let intentosMaximos = 7;
 
-        const price = parseFloat(json.data.amount);
-        const ahora = new Date();
-        const horaFormateada = ahora.toLocaleTimeString('es-VE', { 
-          hour: '2-digit', minute: '2-digit', timeZone: 'America/Caracas' 
-        });
+// Endpoint para procesar el intento del jugador
+app.post("/api/juego-adivinar", (req, res) => {
+  const { numero } = req.body;
+  const suposicion = parseInt(numero);
 
-        // Respondemos al navegador con el JSON limpio
-        proxyRes.json({
-          precio: price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-          cambio: "+0.00", // Coinbase Spot no da el cambio de 24h directamente, fijamos base estable
-          hora: horaFormateada
-        });
-      } catch (e) {
-        proxyRes.status(500).json({ error: "Error al procesar datos" });
-      }
-    });
-  }).on("error", (err) => {
-    proxyRes.status(500).json({ error: "Error de conexión con el proveedor" });
-  });
+  if (isNaN(suposicion)) {
+    return res.status(400).json({ mensaje: "Por favor, introduce un número válido." });
+  }
+
+  if (suposicion === numeroSecreto) {
+    // Si gana, reiniciamos el número para la próxima partida
+    numeroSecreto = Math.floor(Math.random() * 100) + 1;
+    return res.json({ estado: "ganado", mensaje: "¡BRUTAL! Has hackeado el sistema. El número era correcto. Se ha generado uno nuevo." });
+  } else if (suposicion < numeroSecreto) {
+    return res.json({ estado: "pista", mensaje: "El número secreto es MÁS ALTO ↑" });
+  } else {
+    return res.json({ estado: "pista", mensaje: "El número secreto es MÁS BAJO ↓" });
+  }
+});
+
+// Endpoint por si el jugador quiere reiniciar manualmente
+app.post("/api/juego-reiniciar", (req, res) => {
+  numeroSecreto = Math.floor(Math.random() * 100) + 1;
+  res.json({ mensaje: "Sistema reiniciado. Nuevo número generado entre 1 y 100." });
 });
 
 app.get("/", (req, res) => {
