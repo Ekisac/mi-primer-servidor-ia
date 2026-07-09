@@ -50,7 +50,6 @@
       border-radius: 8px;
       overflow: hidden;
       border: 1px solid #30363d;
-      background-color: #171b26;
     }
     .status-log {
       margin-top: 30px;
@@ -82,26 +81,38 @@
       <div class="crypto-card">
         <div class="ticker">ASSET: BITCOIN (BTC/USD)</div>
         
-        <!-- CONTENEDOR EN VIVO DE TRADINGVIEW (Evita bloqueos de navegador) -->
+        <!-- WIDGET OFICIAL DE TRADINGVIEW EN JAVASCRIPT (Inmune a rechazos de conexión) -->
         <div class="widget-container">
-          <iframe src="https://tradingview.com" 
-                  width="100%" 
-                  height="100%" 
-                  frameborder="0" 
-                  allowtransparency="true" 
-                  scrolling="no">
-          </iframe>
+          <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://tradingview.com" async>
+            {
+              "symbol": "BITSTAMP:BTCUSD",
+              "width": "100%",
+              "height": "100%",
+              "locale": "es",
+              "dateRange": "12M",
+              "colorTheme": "dark",
+              "trendLineColor": "rgba(88, 166, 255, 1)",
+              "underLineColor": "rgba(22, 26, 34, 0.3)",
+              "underLineBottomColor": "rgba(13, 15, 18, 0)",
+              "isTransparent": true,
+              "autosize": false,
+              "largeChartUrl": ""
+            }
+            </script>
+          </div>
         </div>
         
         <div class="status-log">
-          <p>> Estado del canal: <span style="color: #3fb950;">Conexión Segura Establecida [OK]</span></p>
-          <p>> Mecánica: Marco de datos aislado (Incrustación nativa). Libre de restricciones CORS.</p>
+          <p>> Estado del canal: <span style="color: #3fb950;">Código Inyectado en Red [OK]</span></p>
+          <p>> Mecánica: Renderizado nativo por Script. Inmune a bloqueos de servidor externo.</p>
         </div>
       </div>
     </main>
 
     <footer style="text-align: center; margin-top: 80px; color: #8b949e; font-family: monospace; padding-top: 20px; border-top: 1px solid #21262d;">
-      <p>// Flujo de datos económicos descentralizados v1.1</p>
+      <p>// Flujo de datos económicos descentralizados v1.2</p>
     </footer>
   </div>
 </body>
