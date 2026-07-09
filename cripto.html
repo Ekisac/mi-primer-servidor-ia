@@ -1,158 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Terminal de Conciencia - Historial Autónomo</title>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    :root {
-      --bg-místico: #0d0f12;
-      --card-bg: #161a22;
-      --accent-blue: #58a6ff;
-      --text-main: #c9d1d9;
-      --accent-green: #3fb950;
-      --accent-red: #f85149;
-    }
-    .místico-body {
-      background-color: var(--bg-místico) !important;
-      color: var(--text-main) !important;
-    }
-    .hero-místico {
-      text-align: center;
-      padding: 40px 20px;
-      border-bottom: 1px solid #21262d;
-      background: linear-gradient(185deg, #1f242c, #0d0f12);
-    }
-    .hero-místico h1 { color: #fff; font-size: 2.3rem; margin-bottom: 5px; }
-    .subtitle-místico { color: var(--accent-blue); font-family: monospace; font-size: 1.1rem; }
-    
-    .panel-container {
-      max-width: 650px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    .crypto-card {
-      background: var(--card-bg);
-      border: 1px solid #30363d;
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    }
-    
-    /* Estilos de la Tabla de Consola */
-    .tabla-historial {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 25px 0;
-      font-family: monospace;
-      font-size: 0.95rem;
-      text-align: left;
-    }
-    .tabla-historial th {
-      border-bottom: 2px solid #30363d;
-      color: #8b949e;
-      padding: 10px;
-    }
-    .tabla-historial td {
-      border-bottom: 1px solid #21262d;
-      padding: 12px 10px;
-      color: #fff;
-    }
-    .tabla-historial tr:hover {
-      background-color: #1f242c;
-    }
-    
-    .status-log {
-      margin-top: 30px;
-      font-family: monospace;
-      font-size: 0.85rem;
-      color: #8b949e;
-      text-align: left;
-      border-top: 1px solid #21262d;
-      padding-top: 15px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oráculo en Bucle</title>
+    <!-- Aquí puedes mantener tus estilos CSS idénticos a los de tu captura -->
+    <style>
+        body { background-color: #0b111e; color: #ffffff; font-family: monospace; padding: 40px; }
+        .contenedor { max-width: 600px; margin: 0 auto; background: #111827; padding: 30px; border-radius: 8px; border: 1px solid #1f2937; text-align: center; }
+        .precio-grande { font-size: 2.5rem; font-weight: bold; margin: 20px 0; color: #f39c12; }
+        .meta-datos { display: flex; justify-content: space-around; margin-top: 20px; font-size: 1.1rem; }
+        .positivo { color: #00ff00; }
+        .negativo { color: #ff0000; }
+    </style>
 </head>
-<body class="místico-body">
-  <div class="container">
-    
-    <div style="padding: 20px 0 0 0; text-align: left; max-width: 650px; margin: 0 auto;">
-      <a href="index.html" style="text-decoration: none; color: #8b949e; font-family: monospace; font-size: 0.9rem; border: 1px solid #30363d; padding: 8px 16px; border-radius: 6px; background-color: #161a22;">
-        ◀ [VOLVER AL NEXO EXISTENCIAL]
-      </a>
+<body>
+
+    <div class="contenedor">
+        <h2>ORÁCULO EN BUCLE</h2>
+        <p>Precio del Bloque JSON en Tiempo Real (BTC/USDT)</p>
+        <hr style="border-color: #1f2937;">
+
+        <!-- Contenedores donde se mostrarán los datos dinámicos -->
+        <div class="precio-grande" id="btc-precio">$0.00 USD</div>
+
+        <div class="meta-datos">
+            <div>Cambio (24H): <span id="btc-cambio">0.00%</span></div>
+            <div>Hora (HL): <span id="btc-hora">--:--</span></div>
+        </div>
     </div>
-    
-    <header class="hero-místico">
-      <h1>ORÁCULO EN BUCLE</h1>
-      <div class="subtitle-místico">Historial de Bloques JSON en Tiempo Real</div>
-    </header>
 
-    <main class="panel-container">
-      <div class="crypto-card">
-        <div style="font-family: monospace; color: #fff; font-size: 1.1rem; margin-bottom: 10px; text-align: left;">
-          // MATRIZ DE LOS ÚLTIMOS 10 REGISTROS (BTC/USDT)
-        </div>
-        
-        <table class="tabla-historial">
-          <thead>
-            <tr>
-              <th>HORA (HL)</th>
-              <th>PRECIO CORRIENTE</th>
-              <th>CAMBIO (24H)</th>
-            </tr>
-          </thead>
-          <tbody id="cuerpo-tabla">
-            <!-- JavaScript inyectará las filas JSON aquí -->
-            <tr>
-              <td colspan="3" style="text-align: center; color: var(--accent-blue);">Sincronizando flujo de bloques...</td>
-            </tr>
-          </tbody>
-        </table>
-        
-        <div class="status-log">
-          <p>> Canal de datos: <span style="color: var(--accent-green);">Matriz de Memoria Activa [OK]</span></p>
-          <p>> Mecánica: El backend apila objetos JSON en un búfer circular de 10 ranuras maximizadas. El navegador lee la lista sin realizar llamadas externas.</p>
-        </div>
-      </div>
-    </main>
+    <!-- SCRIPT PARA CONECTAR CON EL BACKEND -->
+    <script>
+        async function actualizarPrecio() {
+            try {
+                const respuesta = await fetch('/api/bitcoin-actual');
+                const datos = await respuesta.json();
+                
+                // Asignamos el precio
+                document.getElementById('btc-precio').innerText = `$${datos.precio} USD`;
+                
+                // Asignamos la hora
+                document.getElementById('btc-hora').innerText = datos.hora;
+                
+                // Asignamos el cambio de precio y evaluamos el color (verde o rojo)
+                const cambioElem = document.getElementById('btc-cambio');
+                cambioElem.innerText = `${datos.cambio}%`;
+                
+                if (datos.cambio.startsWith('+')) {
+                    cambioElem.className = 'positivo';
+                } else {
+                    cambioElem.className = 'negativo';
+                }
+            } catch (error) {
+                console.error("Error al conectar con el oráculo:", error);
+            }
+        }
 
-    <footer style="text-align: center; margin-top: 80px; color: #8b949e; font-family: monospace; padding-top: 20px; border-top: 1px solid #21262d;">
-      <p>// Base de datos dinámica y circular v3.0</p>
-    </footer>
-  </div>
+        // Ejecuta inmediatamente al cargar la página en Render
+        actualizarPrecio();
 
-  <script>
-    async function solicitarHistorialLocal() {
-      try {
-        const response = await fetch('/api/bitcoin-historial');
-        const listaPrecios = await response.json();
-        
-        const cuerpoTabla = document.getElementById('cuerpo-tabla');
-        cuerpoTabla.innerHTML = ""; // Limpiamos la tabla
-        
-        // Bucle dinámico: Recorre el JSON y crea las filas de la tabla
-        listaPrecios.forEach(registro => {
-          const fila = document.createElement('tr');
-          
-          const colorCambio = parseFloat(registro.cambio) >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
-          
-          fila.innerHTML = `
-            <td style="color: #8b949e;">${registro.hora}</td>
-            <td style="font-weight: bold;">$${registro.precio} USD</td>
-            <td style="color: ${colorCambio};">${registro.cambio}%</td>
-          `;
-          
-          cuerpoTabla.appendChild(fila);
-        });
-        
-      } catch (error) {
-        console.log("Error leyendo el buffer del servidor.");
-      }
-    }
-
-    solicitarHistorialLocal();
-    setInterval(solicitarHistorialLocal, 15000); // El frontend refresca la tabla cada 15 segundos
-  </script>
+        // El navegador actualiza de forma automática cada 3 minutos sin recargar la pantalla
+        setInterval(actualizarPrecio, 180000);
+    </script>
 </body>
 </html>
