@@ -29,36 +29,43 @@
     </div>
 
     <script>
-        async function actualizarPrecio() {
+        async function actualizarPrecioDesdeNavegador() {
             try {
-                const respuesta = await fetch('/api/bitcoin-actual');
-                const datos = await respuesta.json();
+                // El navegador hace la consulta directa evitando el bloqueo de la nube de Render
+                const respuesta = await fetch('https://coingecko.com');
+                const json = await respuesta.json();
                 
-                // Si el servidor aún está cargando el dato real de la API
-                if(datos.precio === "Cargando...") {
-                    document.getElementById('btc-precio').innerText = datos.precio;
-                    return;
-                }
+                if (!json.bitcoin) throw new Error("Datos incompletos");
 
-                document.getElementById('btc-precio').innerText = `$${datos.precio} USD`;
-                document.getElementById('btc-hora').innerText = datos.hora;
+                const price = json.bitcoin.usd;
+                const change = json.bitcoin.usd_24h_change;
+                const ahora = new Date();
+                
+                const horaFormateada = ahora.toLocaleTimeString('es-VE', { 
+                    hour: '2-digit', minute: '2-digit', timeZone: 'America/Caracas' 
+                });
+
+                // Inyectamos los datos reales en el HTML de la página
+                document.getElementById('btc-precio').innerText = `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`;
+                document.getElementById('btc-hora').innerText = horaFormateada;
                 
                 const cambioElem = document.getElementById('btc-cambio');
-                cambioElem.innerText = `${datos.cambio}%`;
+                cambioElem.innerText = `${(change >= 0 ? "+" : "") + change.toFixed(2)}%`;
                 
-                if (datos.cambio.startsWith('+')) {
+                if (change >= 0) {
                     cambioElem.className = 'positivo';
                 } else {
                     cambioElem.className = 'negativo';
                 }
             } catch (error) {
-                console.error("Error al conectar con el backend:", error);
+                document.getElementById('btc-precio').innerText = "Error de Consulta";
+                console.error("Error al obtener los datos cripto:", error);
             }
         }
 
-        // Carga inicial y bucle de consulta automática cada 3 minutos
-        actualizarPrecio();
-        setInterval(actualizarPrecio, 180000);
+        // Ejecución inmediata y actualización automatizada en segundo plano cada 3 minutos
+        actualizarPrecioDesdeNavegador();
+        setInterval(actualizarPrecioDesdeNavegador, 180000);
     </script>
 </body>
 </html>
