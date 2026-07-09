@@ -10,7 +10,6 @@
         .precio-grande { font-size: 2.5rem; font-weight: bold; margin: 20px 0; color: #f39c12; }
         .meta-datos { display: flex; justify-content: space-around; margin-top: 20px; font-size: 1.1rem; }
         .positivo { color: #00ff00; }
-        .negativo { color: #ff0000; }
     </style>
 </head>
 <body>
@@ -23,51 +22,33 @@
         <div class="precio-grande" id="btc-precio">Cargando...</div>
 
         <div class="meta-datos">
-            <div>Cambio (24H): <span id="btc-cambio">--%</span></div>
+            <div>Estado: <span id="btc-cambio" class="positivo">ONLINE</span></div>
             <div>Hora (HL): <span id="btc-hora">--:--</span></div>
         </div>
     </div>
 
     <script>
-        async function actualizarPrecioDesdeNavegador() {
+        async function actualizarPrecioDesdeServidor() {
             try {
-                // Endpoint público de Bitfinex que soporta peticiones de navegador (No CORS) sin tokens
-                const respuesta = await fetch('https://bitfinex.com');
+                // Consulta interna relativa a tu propio servidor de Render
+                const respuesta = await fetch('/api/bitcoin-actual');
+                if(!respuesta.ok) throw new Error("Error en servidor");
+                
                 const datos = await respuesta.json();
-                
-                // Estructura de respuesta tipo array de Bitfinex
-                // datos[6] es el último precio, datos[5] es el cambio porcentual diario
-                if (!datos || datos.length < 7) throw new Error("Datos inválidos");
 
-                const price = parseFloat(datos[6]);
-                const change = parseFloat(datos[5]) * 100; // Se multiplica por 100 para porcentaje numérico
-                const ahora = new Date();
+                // Insertar datos directo en la interfaz
+                document.getElementById('btc-precio').innerText = `$${datos.precio} USD`;
+                document.getElementById('btc-hora').innerText = datos.hora;
                 
-                const horaFormateada = ahora.toLocaleTimeString('es-VE', { 
-                    hour: '2-digit', minute: '2-digit', timeZone: 'America/Caracas' 
-                });
-
-                // Inyectamos los datos formateados en la interfaz visual
-                document.getElementById('btc-precio').innerText = `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`;
-                document.getElementById('btc-hora').innerText = horaFormateada;
-                
-                const cambioElem = document.getElementById('btc-cambio');
-                cambioElem.innerText = `${(change >= 0 ? "+" : "") + change.toFixed(2)}%`;
-                
-                if (change >= 0) {
-                    cambioElem.className = 'positivo';
-                } else {
-                    cambioElem.className = 'negativo';
-                }
             } catch (error) {
-                document.getElementById('btc-precio').innerText = "Error de Consulta";
-                console.error("Error al obtener los datos cripto:", error);
+                document.getElementById('btc-precio').innerText = "Error Interno";
+                console.error("Error al obtener los datos del Proxy:", error);
             }
         }
 
-        // Inicializar ejecución e implementar refresco asíncrono automático de 3 minutos
-        actualizarPrecioDesdeNavegador();
-        setInterval(actualizarPrecioDesdeNavegador, 180000);
+        // Ejecución inicial y bucle automático cada 3 minutos
+        actualizarPrecioDesdeServidor();
+        setInterval(actualizarPrecioDesdeServidor, 180000);
     </script>
 </body>
 </html>
