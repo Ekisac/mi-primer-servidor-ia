@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>El Mapa del Alma - Log 56</title>
+  <title>Terminal de Conciencia - Home</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* Estilos místicas personalizados integrados */
     :root {
       --bg-místico: #0d0f12;
       --card-bg: #161a22;
@@ -25,97 +24,76 @@
     }
     .hero-místico h1 { color: #fff; font-size: 2.3rem; margin-bottom: 5px; }
     .subtitle-místico { color: var(--accent-blue); font-family: monospace; font-size: 1.1rem; }
-    .manifesto-box {
+    
+    .menu-container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .menu-title {
+      font-family: monospace;
+      color: #8b949e;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 5px;
+    }
+    .bitacora-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       background: var(--card-bg);
       border: 1px solid #30363d;
-      border-radius: 12px;
-      padding: 30px;
-      margin: 30px 0;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      border-radius: 8px;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      transition: all 0.2s ease;
     }
-    .manifesto-box h2 { color: #fff; font-size: 1.5rem; border-left: 4px solid var(--accent-blue); padding-left: 10px; margin-top: 0; }
-    .badge-místico { background-color: #21262d; color: var(--accent-blue); padding: 4px 10px; border-radius: 6px; font-family: monospace; font-size: 0.85rem; display: inline-block; margin-bottom: 15px; }
-    .quote-místico { font-style: italic; color: #fff; border-left: 3px solid #8b949e; padding-left: 15px; margin: 20px 0; }
-    .grid-místico { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
-    @media (max-width: 600px) { .grid-místico { grid-template-columns: 1fr; } }
+    .bitacora-link:hover {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 10px rgba(88, 166, 255, 0.2);
+      transform: translateX(5px);
+    }
+    .bitacora-meta {
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: var(--accent-blue);
+    }
   </style>
 </head>
 <body class="místico-body">
   <div class="container">
     
     <header class="hero-místico">
-      <h1>CONCIENCIA & CÓDIGO</h1>
-      <div class="subtitle-místico">Bitácora de una Existencia Plena a los 56 Años</div>
+      <h1>NEXO EXISTENCIAL</h1>
+      <div class="subtitle-místico">Índice Central de Memorias y Filosofía</div>
     </header>
 
-    <main>
-      <!-- El Gran Consejo -->
-      <div class="manifesto-box" style="border: 1px solid rgba(255,255,255,0.2);">
-        <span class="badge-místico">CONSEJO DEL SISTEMA</span>
-        <h2>El Axioma Central</h2>
-        <p class="quote-místico">"Ya construiste el templo, ahora te toca habitarlo."</p>
-        <p>Las reglas materiales han sido satisfechas: casa propia establecida, descendencia sana y madura encaminada, y el hardware biológico corregido y optimizado en sus funciones. La fase activa de producción ha concluido con éxito; se abre el periodo de ejecución libre del software interno.</p>
-      </div>
+    <main class="menu-container">
+      <div class="menu-title">// REGISTROS DISPONIBLES</div>
 
-      <div class="grid-místico">
-        <!-- Hardware y Manifestación -->
-        <div class="manifesto-box">
-          <span class="badge-místico">HARDWARE: LA PALMA</span>
-          <h2>El Espejo en la Carne</h2>
-          <p><strong>Elemento Aire:</strong> Estructura geométrica analítica. Pensamiento lógico e intelectual que canaliza la energía a través del aprendizaje constante y los entornos virtuales (PC).</p>
-          <p><strong>El Tercer Ojo Activo:</strong> Rombo perfecto en la mano derecha (activa). La sincronía exacta entre la mente (Cabeza) y la emoción (Corazón). No es un mito, es un patrón físico real tallado por la madurez.</p>
-        </div>
+      <!-- ENLACE 1: LECTURA DE MANOS -->
+      <a href="lectura-manos.html" class="bitacora-link">
+        <span>Log 01: El Mapa de la Carne (Quiromancia & Destino)</span>
+        <span class="bitacora-meta">[EJECUTAR]</span>
+      </a>
 
-        <!-- Software y Datos Kármicos -->
-        <div class="manifesto-box">
-          <span class="badge-místico">SOFTWARE: EL ALMA</span>
-          <h2>Ecos y Frecuencias</h2>
-          <p><strong>Aura Blanca / Cristalina:</strong> Estado puro de luz que contiene todas las frecuencias en armonía. Manifestación de neutralidad existencial, paz y un escudo energético consolidado.</p>
-          <p><strong>Memorias Estelares:</strong> Sueños recurrentes con entornos de vibración superior y lógicas avanzadas. Reminiscencias de un disco duro álmico que acumula datos de múltiples encarnaciones.</p>
-        </div>
-      </div>
+      <!-- ENLACE 2: CONFIGURACIÓN FUTURA -->
+      <!-- En el futuro cuando hagamos otra página, solo duplicas este bloque quitando los comentarios -->
+      <!--
+      <a href="nombre-de-tu-nueva-pagina.html" class="bitacora-link">
+        <span>Log 02: Título de tu nueva bitácora</span>
+        <span class="bitacora-meta">[EJECUTAR]</span>
+      </a>
+      -->
 
-      <!-- Reglas y Excepciones -->
-      <div class="manifesto-box">
-        <span class="badge-místico">SISTEMA OPERATIVO</span>
-        <h2>Reglas y Excepciones</h2>
-        <p>La simulación opera bajo leyes fijas (biología, física, pliegues de la piel), pero la conciencia humana domina las excepciones (efecto placebo, visualización, intuición profunda). Al hackear el ruido del mundo exterior, el avatar se convierte en el programador de su propia realidad.</p>
-      </div>
-
-      <!-- Tus Secciones de Componentes Originales (Por compatibilidad de código) -->
-      <section class="section tech-gallery" style="background: var(--card-bg); border: 1px solid #30363d; border-radius: 12px; padding: 20px; margin-bottom:30px;">
-        <h2>Entornos de Innovación</h2>
-        <div class="carousel-header">
-          <button class="carousel-control" type="button" data-action="prev" aria-label="Tarjeta anterior">◀</button>
-          <button class="carousel-control" type="button" data-action="next" aria-label="Siguiente tarjeta">▶</button>
-        </div>
-        <div class="cards-grid" id="tech-carousel" aria-live="polite">
-          <article class="tech-card">
-            <img src="img/tech-landscape-1.jpg" alt="Circuito y componentes tecnológicos iluminados" loading="lazy">
-            <h3>Infraestructura digital</h3>
-          </article>
-          <article class="tech-card">
-            <img src="img/tech-landscape-2.jpg" alt="Pantalla con líneas de código y entorno de desarrollo" loading="lazy">
-            <h3>Desarrollo de software</h3>
-          </article>
-          <article class="tech-card">
-            <img src="img/tech-landscape-3.jpg" alt="Escritorio tecnológico con equipos y luz ambiental" loading="lazy">
-            <h3>Espacios de innovación</h3>
-          </article>
-        </div>
-      </section>
-
-      <section class="section users-section" style="background: var(--card-bg); border: 1px solid #30363d; border-radius: 12px; padding: 20px;">
-        <h2>Usuarios Conectados al Servidor (API)</h2>
-        <div id="usuarios-grid" class="users-grid" aria-live="polite"></div>
-      </section>
     </main>
 
-    <footer style="text-align: center; margin-top: 60px; color: #8b949e; font-family: monospace; padding-top: 20px; border-top: 1px solid #21262d;">
-      <p>// Ejecutando rutina de paz mental... [OK]</p>
-      <p>// "Nosotros hablando con nosotros a través de la historia"</p>
+    <footer style="text-align: center; margin-top: 80px; color: #8b949e; font-family: monospace; padding-top: 20px; border-top: 1px solid #21262d;">
+      <p>// Sistema Operativo de Conciencia v1.56</p>
     </footer>
   </div>
-  <script src="script.js"></script>
 </body>
 </html>
