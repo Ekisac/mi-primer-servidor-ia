@@ -50,6 +50,7 @@
       border-radius: 8px;
       overflow: hidden;
       border: 1px solid #30363d;
+      background-color: #131722;
     }
     .status-log {
       margin-top: 30px;
@@ -81,38 +82,32 @@
       <div class="crypto-card">
         <div class="ticker">ASSET: BITCOIN (BTC/USD)</div>
         
-        <!-- WIDGET OFICIAL DE TRADINGVIEW EN JAVASCRIPT (Inmune a rechazos de conexión) -->
+        <!-- COMPONENTE WEB AUTOCONTENIDO (Evita errores de librerías faltantes) -->
         <div class="widget-container">
-          <div class="tradingview-widget-container">
-            <div class="tradingview-widget-container__widget"></div>
-            <script type="text/javascript" src="https://tradingview.com" async>
-            {
-              "symbol": "BITSTAMP:BTCUSD",
-              "width": "100%",
-              "height": "100%",
-              "locale": "es",
-              "dateRange": "12M",
-              "colorTheme": "dark",
-              "trendLineColor": "rgba(88, 166, 255, 1)",
-              "underLineColor": "rgba(22, 26, 34, 0.3)",
-              "underLineBottomColor": "rgba(13, 15, 18, 0)",
-              "isTransparent": true,
-              "autosize": false,
-              "largeChartUrl": ""
-            }
-            </script>
-          </div>
+          <crypto-converter-widget 
+            crypto="bitcoin" 
+            fiat="usd" 
+            crypto-amount="1" 
+            font-family="sans-serif" 
+            decimal-places="2" 
+            background-color="#161a22" 
+            text-color="#ffffff" 
+            border-radius="8" 
+            fiat-symbol="$" 
+            show-share-link="false">
+          </crypto-converter-widget>
+          <script src="https://jsdelivr.net" async></script>
         </div>
         
         <div class="status-log">
-          <p>> Estado del canal: <span style="color: #3fb950;">Código Inyectado en Red [OK]</span></p>
-          <p>> Mecánica: Renderizado nativo por Script. Inmune a bloqueos de servidor externo.</p>
+          <p>> Estado del canal: <span style="color: #3fb950;">Módulo Inyectado con Éxito [OK]</span></p>
+          <p>> Mecánica: Renderizado nativo por Web Component. Independiente de scripts pesados.</p>
         </div>
       </div>
     </main>
 
     <footer style="text-align: center; margin-top: 80px; color: #8b949e; font-family: monospace; padding-top: 20px; border-top: 1px solid #21262d;">
-      <p>// Flujo de datos económicos descentralizados v1.2</p>
+      <p>// Flujo de datos económicos descentralizados v1.3</p>
     </footer>
   </div>
 </body>
